@@ -1,9 +1,11 @@
 ### create config/index.js under src folder
 
 ```
+const nodeEnv = process.env.NODE_ENV || 'dev';
+
 const baseConfig = {
   sqlConfig: {
-    host: 'host',
+    host: 'localhost',
     port: 5432,
     database: 'database',
     user: 'user',
@@ -11,9 +13,27 @@ const baseConfig = {
   },
 };
 
-const config = {
+const testConfig = {
   ...baseConfig,
+  sqlConfig: {
+    host: 'localhost',
+    port: 5432,
+    database: 'database-test',
+    user: 'user',
+    password: 'password',
+  },
 };
 
-module.exports = config;
+const devConfig = {};
+
+module.exports = {
+  test: {
+    ...baseConfig,
+    ...testConfig,
+  },
+  dev: {
+    ...baseConfig,
+    ...devConfig,
+  },
+}[nodeEnv];
 ```
